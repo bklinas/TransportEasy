@@ -1,0 +1,76 @@
+{
+  "swagger":"2.0",
+  "info":{
+    "description":"Messages d’information sur l’état du trafic en temps réel par ligne ou par arrêt.\n\nCe service donne l’ensemble des informations concernant les perturbations sur le trafic (incidents, travaux prévus et non prévus...).\n\nLes requêtes et réponses sont exprimées au format SIRI Lite, vous trouverez plus d’informations sur ce format d’échange de données dans la documentation technique.\n\n----------\n\n**Point d’entrée sur l’API**\n\nLes points d'entrée implémentés permettent de simplifier l'utilisation de l'API en répondant aux principaux cas d'usages.\n\n`GET` /general-message\n\n\n----------\n\n**Accès à l'API**\n\nVous devez être connecté à [votre compte utilisateur](https://portal.api.iledefrance-mobilites.fr/fr/sign-in-fr) pour accéder à l'API.\n\n----------\n**Documentation générale**\n\n[Une documentation générale](https://portal.api.iledefrance-mobilites.fr/images/com_apiportal/doc/IDFM-portailAPI-documentation.pdf) permet de mieux appréhender l’API et d’en connaître les précautions d'usage.\n\n----------\n\n**Conditions Générales d'Utilisation de l'API et licence des données**\n\nL'utilisation de l'API Île-de-France Mobilités est soumise à des [Conditions Générales d'Utilisation](https://portal.api.iledefrance-mobilites.fr/fr/cgu) Les données issues de l'API Île-de-France Mobilités sont soumises à la licence [Open Database License (OdBL)](https://spdx.org/licenses/ODbL-1.0.html#licenseText)",
+    "version":"1.0.0",
+    "title":"Messages Info Trafic (plateforme Île-de-France Mobilités)"
+  },
+  "host":"prim.iledefrance-mobilites.fr",
+  "basePath":"/marketplace",
+  "schemes":[
+    "https"
+  ],
+  "securityDefinitions":{
+    "APIKeyHeader":{
+      "type":"apiKey",
+      "in":"header",
+      "name":"apikey"
+    }
+  },
+  "security":{
+    "APIKeyHeader":[]
+  },
+  "paths":{
+    "/general-message":{
+      "get":{
+        "description":"Point d'entrée pour récupérer les informations de type \"Message\"",
+        "operationId":"getMessages",
+        "produces":[
+          "application/json"
+        ],
+        "parameters":[
+          {
+            "name":"LineRef",
+            "in":"query",
+            "description":"Identifiant CodifLigne de la ligne. Ex. STIF:Line::C01727: (RER C)",
+            "required":false,
+            "type":"string"
+          },
+          {
+            "name":"StopPointRef",
+            "in":"query",
+            "description":"Référence de l'arrêt. Ex. STIF:StopPoint:Q:412844: (Gare de Saint-Rémy-Lès-Chevreuse",
+            "required":false,
+            "type":"string"
+          },
+          {
+            "name":"InfoChannelRef",
+            "in":"query",
+            "description":"Information OU Perturbation OU Commercial",
+            "required":false,
+            "type":"string"
+          }
+        ],
+        "responses":{
+          "200":{
+            "description":"OK",
+            "schema":{
+              "$ref":"#/definitions/GeneralMessageResponseDelivery"
+            }
+          },
+          "400":{
+            "description":"BAD Request : La requête contient des identifiants qui sont inconnus"
+          },
+          "500":{
+            "description":"Internal Server Error"
+          }
+        }
+      }
+    }
+  },
+  "definitions":{
+    "GeneralMessageResponseDelivery":{
+      "type":"object"
+    }
+  }
+}
